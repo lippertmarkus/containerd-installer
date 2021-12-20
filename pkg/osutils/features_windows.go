@@ -22,7 +22,7 @@ func EnableFeatures(features []string) (bool, error) {
 		if errors.Is(err, windows.ERROR_SUCCESS_REBOOT_REQUIRED) {
 			return true, nil
 		}
-		// TODO returns err 1 on Windows Server versions if features already enabled
+		// TODO returns err 1 on Windows Server versions if features already enabled, see https://github.com/google/glazier/pull/460
 		if e, ok := err.(syscall.Errno); ok && int(e) == 1 {
 			logrus.Warnf("DISM: ignoring error code %d with message \"%s\" for Windows Server systems indicating all required features are installed", int(e), err)
 		} else {
