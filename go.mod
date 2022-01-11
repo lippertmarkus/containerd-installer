@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/Microsoft/hcsshim v0.8.23
 	github.com/containerd/containerd v1.5.8
-	github.com/google/glazier v0.0.0-20211125111747-329eab8c800a
+	github.com/google/glazier v0.0.0-20220110212823-8a7f3dacb8be
 	github.com/hashicorp/go-retryablehttp v0.7.0
 	github.com/jfbus/httprs v0.0.0-20190827093123-b0af8319bb15
 	github.com/klauspost/compress v1.11.13
