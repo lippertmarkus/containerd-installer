@@ -61,3 +61,26 @@ func CreateNatCniConfig(containerdPath string, natNetwork hns.NatNetworkDetails)
 
 	return nil
 }
+
+func CreateCtrSymlinks(containerdPath string) error {
+	logrus.Debug("Creating symlinks to CNI binaries and configs for ctr to work")
+
+	if err := os.MkdirAll("/etc/cni/", os.ModeDir); err != nil {
+		return errors.Wrapf(err, "Couldn't create directory /etc/cni")
+	}
+	if err := os.MkdirAll("/opt/cni/", os.ModeDir); err != nil {
+		return errors.Wrapf(err, "Couldn't create directory /opt/cni/")
+	}
+
+	cniConfDir := filepath.Join(containerdPath, "cni", "conf")
+	cniBinDir := filepath.Join(containerdPath, "cni", "bin")
+
+	if err := os.Symlink(cniConfDir, "/etc/cni/net.d"); err != nil {
+		return errors.Wrapf(err, "Couldn't create symlink /etc/cni/net.d")
+	}
+	if err := os.Symlink(cniBinDir, "/opt/cni/bin"); err != nil {
+		return errors.Wrapf(err, "Couldn't create symlink /opt/cni/bin")
+	}
+
+	return nil
+}

@@ -42,6 +42,10 @@ func main() {
 				Name:  "no-cni-plugins",
 				Usage: "Do not install CNI plugins",
 			},
+			&cli.BoolFlag{
+				Name:  "no-ctr-symlinks",
+				Usage: "Disable creating symlinks in /etc/cni/net.d and /opt/cni/bin (currently required for using ctr)",
+			},
 		},
 		Before: func(c *cli.Context) error {
 			if c.IsSet("debug") {
@@ -108,6 +112,12 @@ func runCmd(c *cli.Context) error {
 
 			if err := install.CreateNatCniConfig(containerdPath, natNetwork); err != nil {
 				return errors.WithMessage(err, "Failed create CNI config for NAT network")
+			}
+
+			if !c.IsSet("no-ctr-symlinks") {
+				if err := install.CreateCtrSymlinks(containerdPath); err != nil {
+					return errors.WithMessage(err, "Failed to create CNI symlinks for ctr")
+				}
 			}
 
 			return nil
