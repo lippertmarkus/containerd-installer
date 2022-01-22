@@ -26,7 +26,7 @@ func main() {
 			&cli.StringFlag{
 				Name:  "containerd-version",
 				Usage: "Set containerd version to install",
-				Value: "1.6.0-beta.3",
+				Value: "1.6.0-rc.1",
 			},
 			&cli.StringFlag{
 				Name:  "path",
